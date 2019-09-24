@@ -1,0 +1,39 @@
+$aviata-font-family: 'Open Sans', Arial;
+
+
+$aviata-white: #FFFFFF;
+$aviata-light-blue: #EAF0FA;
+$aviata-blue: #5763B3;
+$aviata-gray-hover: #EBEBEB;
+$aviata-gray: #B9B9B9;
+$aviata-dark: #707276;
+$aviata-deep-dark: #202123;
+
+$aviata-primary-color: #55BB06;
+$aviata-secondary-color: #7284E4;
+$aviata-third-color: #FF9900;
+
+$aviata-primary-background-color: #F5F5F5;
+$aviata-secondary-background-color: #D7D7D7;
+
+$aviata-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+
+$aviata-border-radius: 4px;
+
+// Bootstrap overridden variables
+$gray-800: $aviata-dark;
+$black: $aviata-deep-dark;
+
+$blue: $aviata-primary-color;
+$cyan: $aviata-secondary-color;
+$yellow: $aviata-third-color;
+
+$grid-gutter-width: 20px;
+
+$box-shadow: $aviata-box-shadow;
+
+$font-family-base: $aviata-font-family;
+
+$custom-control-gutter: 1rem;
+
+$btn-font-size: 1.5rem;
