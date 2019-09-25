@@ -1,5 +1,5 @@
 <template>
-  <span><slot></slot></span>
+  <span @click="$emit('click')"><slot></slot></span>
 </template>
 
 <script>
@@ -13,6 +13,7 @@
 
   span {
     color: $aviata-blue;
+    cursor: pointer;
     border-bottom: 1px dashed rgba($aviata-blue, 0.5);
   }
 </style>

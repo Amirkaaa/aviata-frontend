@@ -1,6 +1,5 @@
 $aviata-font-family: 'Open Sans', Arial;
 
-
 $aviata-white: #FFFFFF;
 $aviata-light-blue: #EAF0FA;
 $aviata-blue: #5763B3;
@@ -12,6 +11,7 @@ $aviata-deep-dark: #202123;
 $aviata-primary-color: #55BB06;
 $aviata-secondary-color: #7284E4;
 $aviata-third-color: #FF9900;
+$aviata-fourth-color: #FF3724;
 
 $aviata-primary-background-color: #F5F5F5;
 $aviata-secondary-background-color: #D7D7D7;
@@ -27,12 +27,17 @@ $black: $aviata-deep-dark;
 $blue: $aviata-primary-color;
 $cyan: $aviata-secondary-color;
 $yellow: $aviata-third-color;
+$red: $aviata-fourth-color;
+
+$body-bg: $aviata-secondary-background-color;
 
 $grid-gutter-width: 20px;
 
 $box-shadow: $aviata-box-shadow;
 
 $font-family-base: $aviata-font-family;
+
+$input-btn-focus-box-shadow: none;
 
 $custom-control-gutter: 1rem;
 

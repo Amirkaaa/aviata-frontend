@@ -2,27 +2,41 @@
   <div class="airlines-filter rounded">
     <h3 v-text="title"></h3>
     <div class="airlines-filter__list">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="all" :checked="getOption('allAirlines')" @input="toggleAllAirlines" />
+        <label class="custom-control-label" for="all" v-text="all"></label>
+      </div>
+
       <div class="custom-control custom-checkbox" v-for="(item, index) in getAirlinesList" :key="index">
-        <input type="checkbox" class="custom-control-input" :id="index" v-model="item.model" />
-        <label class="custom-control-label" :for="index" v-text="item"></label>
+        <input type="checkbox" class="custom-control-input" :id="'airline' + index" :checked="getAirlineOption(item.carrier)" @input="toggleAirline(item.carrier)" />
+        <label class="custom-control-label" :for="'airline' + index" v-text="item.carrier_name"></label>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: "AirlinesFilter",
   data() {
     return {
       title: 'Авиакомпании',
+      all: 'Все'
     }
   },
   computed: {
     ...mapGetters([
-      'getAirlinesList'
+      'getAirlinesList',
+      'getAirlineOption',
+      'getOption'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'toggleAllAirlines',
+      'toggleAirline'
     ])
   }
 }

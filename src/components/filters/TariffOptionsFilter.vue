@@ -1,36 +1,58 @@
 <template>
   <div class="tariff-options-filter rounded">
     <h3 v-text="title"></h3>
+
     <div class="custom-control custom-checkbox" v-for="(option, index) in options" :key="index">
-      <input type="checkbox" class="custom-control-input" :id="index" v-model="option.model" />
-      <label class="custom-control-label" :for="index" v-text="option.title"></label>
+      <input type="checkbox" class="custom-control-input" :id="'option' + index" :checked="getOption(option.state)" @input="setOption(option.method)" />
+      <label class="custom-control-label" :for="'option' + index" v-text="option.title"></label>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "TariffOptionsFilter",
-    data() {
-      return {
-        title: 'Опции тарифа',
-        options: [
-          {
-            title: 'Только прямые',
-            model: false
-          },
-          {
-            title: 'Только с багажом',
-            model: false
-          },
-          {
-            title: 'Только возвратные',
-            model: false
-          }
-        ]
-      }
+import { mapGetters, mapActions } from 'vuex'
+
+export default {
+  name: "TariffOptionsFilter",
+  data() {
+    return {
+      title: 'Опции тарифа',
+      options: [
+        {
+          title: 'Только прямые',
+          method: 'toggleDirectFlight',
+          state: 'directFlight'
+        },
+        {
+          title: 'Только с багажом',
+          method: 'toggleWithBag',
+          state: 'withBag'
+        },
+        {
+          title: 'Только возвратные',
+          method: 'toggleRefundable',
+          state: 'refundable'
+        }
+      ]
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'getOption'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'toggleDirectFlight',
+      'toggleWithBag',
+      'toggleRefundable'
+    ]),
+
+    setOption(method) {
+      this[method].call()
     }
   }
+}
 </script>
 
 <style scoped lang="scss">

@@ -1,18 +1,18 @@
 <template>
-  <div class="ticket rounded shadow">
-    <div class="ticket-content d-flex flex-column rounded-left px-5 py-3">
-      <div class="ticket-content-trip d-flex flex-grow-1 align-items-center">
+  <div class="ticket rounded shadow d-flex align-items-stretch">
+    <div class="ticket-content d-flex flex-column rounded-left px-5 py-4">
+      <div class="ticket-content-trip d-flex flex-grow-1 align-items-center justify-content-between pr-4">
         <div class="ticket-content-airline">
           <img :src="getCarrierIconSrc" :alt="getItinerary['carrier_name']" />
           <span v-text="getItinerary['carrier_name']"></span>
         </div>
 
-        <div class="ticket-content-datetime d-flex flex-column align-items-center px-4">
+        <div class="ticket-content-datetime d-flex flex-column align-items-center">
           <span class="ticket-content-date d-block" v-text="getSplitDate(getDeparture['dep_time'])"></span>
           <span class="ticket-content-time d-block" v-text="getSplitTime(getDeparture['dep_time'])"></span>
         </div>
 
-        <div class="ticket-content-path d-flex flex-grow-1 align-items-start position-relative">
+        <div class="ticket-content-path d-flex align-items-start position-relative">
           <span class="path-dep-text text-dark" v-text="getDeparture['origin_code']"></span>
 
           <div class="d-flex flex-grow-1 flex-column align-items-center">
@@ -30,8 +30,12 @@
           </div>
         </div>
 
-        <div class="ticket-content-datetime d-flex flex-column align-items-center px-4">
-          <span class="ticket-content-date d-block" v-text="getSplitDate(getDestination['arr_time'])"></span>
+        <div class="ticket-content-datetime d-flex flex-column align-items-center">
+          <span class="ticket-content-date d-block position-relative">
+            <span v-text="getSplitDate(getDestination['arr_time'])"></span>
+            <span class="ticket-content-next-day" v-text="placeholders.nextDay"></span>
+        </span>
+
           <span class="ticket-content-time d-block" v-text="getSplitTime(getDestination['arr_time'])"></span>
         </div>
       </div>
@@ -39,17 +43,24 @@
       <div class="ticket-content-highlights">
         <highlight-text class="mr-4" v-text="placeholders.details" />
         <highlight-text class="mr-4" v-text="placeholders.requirements" />
-        <span class="ml-4">
+        <span v-if="!data.refundable" class="ml-4">
           <img class="mr-2" src="../../assets/icon-non-refundable.svg" alt="Non refundable">
           <span class="ticket-content-non-refundable text-dark" v-text="placeholders.nonRefundable"></span>
         </span>
       </div>
     </div>
 
-    <div class="ticket-price rounded-right px-4 py-3">
-      <p class="ticket-price-value" v-text="`${ data.price } ${ data.currency }`"></p>
-      <btn class="btn-block font-weight-bold" block bold v-text="placeholders.select"></btn>
+    <div class="ticket-price rounded-right px-4 py-4">
+      <p class="ticket-price-value">
+        <span v-text="data.price"></span>
+        <span>&nbsp;</span>
+        <span class="ticket-price-currency" v-text="data.currency"></span>
+      </p>
+
+      <btn class="btn btn-primary shadow-none btn-block font-weight-bold" block bold v-text="placeholders.select"></btn>
+
       <p class="ticket-price-tip text-dark text-center mt-2" v-text="placeholders.tip"></p>
+
       <div class="d-flex align-items-center justify-content-between">
         <span v-text="placeholders.bag"></span>
         <span class="ticket-price-additional-bag" v-text="placeholders.addBag"></span>
@@ -83,7 +94,8 @@ export default {
         select: 'Выбрать',
         tip: 'Цена за всех пассажиров',
         bag: 'Нет багажа',
-        addBag: '+ Добавить багаж'
+        addBag: '+ Добавить багаж',
+        nextDay: '+1'
       }
     }
   },
@@ -116,10 +128,11 @@ export default {
       // Convert milliseconds to seconds
       const difference = (destTime - arrTime) / 1000
 
-      const minutes = Math.floor((difference / 60) % 60)
-      const hours = Math.floor((difference / 3600) % 24)
+      const days = Math.floor(difference / (3600 * 24));
+      const hours = Math.floor(difference % (3600 * 24) / 3600);
+      const minutes = Math.floor(difference % 3600 / 60);
 
-      return `${ hours } ч ${ minutes} м`
+      return days ? `${ days } д ${ hours } ч ${ minutes} м` : `${ hours } ч ${ minutes} м`;
     },
 
     getTravelStops() {
@@ -148,11 +161,6 @@ export default {
 
   @import '../../variables';
 
-  .ticket {
-    display: flex;
-    align-items: stretch;
-  }
-
   .ticket-content {
     width: 70%;
     background-color: $aviata-white;
@@ -167,6 +175,15 @@ export default {
     }
   }
 
+  .ticket-content-next-day {
+    font-weight: 600;
+    font-size: 10px;
+    color: rgba($aviata-fourth-color, 0.8);
+    position: absolute;
+    top: calc(50% - 1rem / 2);
+    right: -1.5rem;
+  }
+
   .ticket-content-date {
     font-size: 1rem;
     line-height: 1;
@@ -175,6 +192,10 @@ export default {
   .ticket-content-time {
     font-size: 2rem;
     font-weight: 600;
+  }
+
+  .ticket-content-path {
+    min-width: 14rem;
   }
 
   .path-dep-text,
@@ -230,6 +251,10 @@ export default {
     line-height: 1.2;
     font-family: Arial, 'Open Sans', sans-serif;
     text-align: center;
+  }
+
+  .ticket-price-currency {
+    font-size: 1rem;
   }
 
   .ticket-price-tip {

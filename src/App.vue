@@ -8,16 +8,28 @@
   @import 'variables';
 
   html {
-    font-size: 12px;
+
+    @media (min-width: 576px) {
+      font-size: 8px;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 10px;
+    }
+
+    @media (min-width: 992px) {
+      font-size: 11px;
+    }
+
+    @media (min-width: 1200px) {
+      font-size: 12px;
+    }
   }
 
   html,
   body,
   #app {
-    min-height: 100%;
+    height: 100%;
   }
 
-  #app {
-    background-color: $aviata-secondary-background-color;
-  }
 </style>

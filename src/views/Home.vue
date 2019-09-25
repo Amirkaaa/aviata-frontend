@@ -12,12 +12,12 @@
     <div class="home-content py-5">
       <div class="container">
         <div class="row">
-          <div class="col-3">
+          <div class="col-12 col-md-3">
             <tariff-options-filter class="mb-3" />
             <airlines-filter class="mb-3" />
-            <highlight-text v-text="resetFilters" />
+            <highlight-text @click="resetFiltersAndOptions" v-text="resetFilters" />
           </div>
-          <div class="col-9">
+          <div class="col-12 col-md-9">
             <ticket class="mb-3" :data="flight" v-for="(flight, index) in getFlightsList" :key="index" />
           </div>
         </div>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import TariffOptionsFilter from "../components/filters/TariffOptionsFilter";
 import AirlinesFilter from "../components/filters/AirlinesFilter";
@@ -50,6 +50,11 @@ export default {
   computed: {
     ...mapGetters([
       'getFlightsList',
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'resetFiltersAndOptions'
     ])
   }
 }
